@@ -21,7 +21,14 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // 5. Mount Middleware
-app.use(cors());
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production'
+    ? process.env.FRONTEND_URL // Your frontend URL in production
+    : 'http://localhost:5173', // Vite's default dev server port
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // 6. Basic "Hello World" Route
